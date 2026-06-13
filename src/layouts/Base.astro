@@ -1,0 +1,79 @@
+---
+// Base layout: shared <head> with SEO meta, GA4, and Search Console verification.
+const {
+  title,
+  description = 'A fast, agent-friendly marketing site and blog.',
+  image,
+  type = 'website',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// These come from environment variables so secrets/IDs aren't hard-coded.
+// PUBLIC_ prefix makes them available in the browser (GA4 ID + GSC token are public-safe).
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID;            // e.g. G-XXXXXXXXXX
+const GSC_VERIFY = import.meta.env.PUBLIC_GSC_VERIFICATION; // the meta-tag token from Search Console
+const SITE_NAME = 'Your Brand';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_NAME} href={new URL('rss.xml', Astro.site)} />
+
+    <title>{title} · {SITE_NAME}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Search Console verification (meta-tag method) -->
+    {GSC_VERIFY && <meta name="google-site-verification" content={GSC_VERIFY} />}
+
+    <!-- Google Analytics 4 -->
+    {GA4_ID && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+        <script is:inline define:vars={{ GA4_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', GA4_ID);
+        </script>
+      </>
+    )}
+
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="container nav">
+        <a class="brand" href="/">{SITE_NAME}</a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/blog">Blog</a>
+          <a href="/admin" title="Visual editor">Admin</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© {new Date().getFullYear()} {SITE_NAME}. Built with Astro · deployed on Netlify.</p>
+      </div>
+    </footer>
+  </body>
+</html>

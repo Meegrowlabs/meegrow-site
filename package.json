@@ -1,0 +1,17 @@
+{
+  "name": "web-blog-starter",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Agent-agnostic Astro marketing site + /blog starter, deployable to Netlify, with GA4 + GSC + DataForSEO wiring.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.7.0"
+  }
+}
