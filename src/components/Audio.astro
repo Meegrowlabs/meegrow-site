@@ -1,0 +1,10 @@
+---
+// Audio.astro — a simple HTML5 audio player.
+// Put small files in /public/uploads, or pass an external/CDN URL.
+// For large audio, host it externally rather than committing to Git.
+const { src, caption } = Astro.props;
+---
+<figure class="media-audio">
+  <audio controls preload="none" src={src}></audio>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

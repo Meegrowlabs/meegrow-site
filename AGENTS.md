@@ -40,6 +40,19 @@ Body in Markdown. Use one H1-free structure: the title is the H1.
 Start with a strong intro paragraph, then use ## subheadings.
 ```
 
+### Media in posts
+
+- **Images / infographics:** put files in `public/uploads/` and reference `/uploads/<file>`
+  in Markdown (`![alt](/uploads/x.png)`) or with `<Figure src="/uploads/x.png" caption="…" />`.
+  For build-optimized images, put them in `src/assets/` and use `astro:assets` `<Image>` in an
+  `.mdx` post. AI-generated images go in `public/uploads/` (or a CDN — see below).
+- **Audio:** `<Audio src="/uploads/clip.mp3" caption="…" />` (small files only).
+- **Video:** NEVER commit large video. Use `<Video youtube="<id>" />` or `<Video vimeo="<id>" />`.
+- **A post that uses components must be `.mdx`** (not `.md`) and import them at the top:
+  `import Figure from '../../components/Figure.astro';` (same for Audio, Video).
+- **At scale**, prefer a media CDN (Cloudinary/Bunny/R2): upload, then reference the URL.
+- See `src/content/blog/media-showcase.mdx` for a working example of all of the above.
+
 ### Commands
 
 ```bash

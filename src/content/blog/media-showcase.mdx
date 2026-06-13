@@ -1,0 +1,66 @@
+---
+title: "Media Showcase: Images, Infographics, Audio & Video"
+description: "Every way to put rich media in a post — and the one rule about video."
+pubDate: 2026-06-13
+author: "Team"
+tags: ["guide", "media"]
+draft: false
+heroImage: "/uploads/sample-infographic.svg"
+heroImageAlt: "The content-to-distribution loop infographic"
+---
+
+import Figure from '../../components/Figure.astro';
+import Audio from '../../components/Audio.astro';
+import Video from '../../components/Video.astro';
+
+This post is an `.mdx` file, so it can mix Markdown with components. Use it as a
+reference for adding media to any post.
+
+## Images & infographics
+
+The simplest way — drop a file in `public/uploads/` and reference it:
+
+![A sample infographic](/uploads/sample-infographic.svg)
+
+Or use the `<Figure>` component to add a caption:
+
+<Figure
+  src="/uploads/sample-infographic.svg"
+  alt="The content-to-distribution loop"
+  caption="Figure 1 — an infographic with a caption."
+/>
+
+**For build-time optimized images** (auto WebP, responsive, lazy), put the file in
+`src/assets/` and use Astro's image pipeline in an `.mdx` post:
+
+```mdx
+import { Image } from 'astro:assets';
+import hero from '../../assets/my-photo.jpg';
+
+<Image src={hero} alt="Optimized photo" width={1200} />
+```
+
+Or co-locate the image next to the post and use a relative Markdown link
+(`![alt](./my-photo.jpg)`) — Astro optimizes those automatically.
+
+## Audio
+
+<Audio src="/uploads/episode-1.mp3" caption="Episode 1 — replace with your file." />
+
+Small clips can live in `public/uploads`. Host longer audio externally and pass its URL.
+
+## Video — the one rule
+
+**Never commit large video to Git.** Host it (YouTube, Vimeo, Cloudinary, Bunny) and embed:
+
+<Video youtube="aqz-KE-bpKQ" title="Sample YouTube embed" />
+
+For a short self-hosted clip you can pass `src` to an mp4 in `public/` or a CDN URL —
+but keep it small.
+
+## At scale
+
+When you're producing lots of media across many client sites, store images/audio/video
+on a **media CDN** (Cloudinary, Bunny, or Cloudflare R2) and reference the URLs. Your
+repos stay lean, builds stay fast, and delivery is global. AI-generated images
+(fal.ai / Gemini / Higgsfield) get uploaded there, and the URL goes straight into the post.

@@ -1,0 +1,28 @@
+---
+// Video.astro — responsive video embed.
+// Preferred: pass a `youtube` id or `vimeo` id (nothing committed to Git).
+// For a self-hosted clip, pass `src` to a small mp4 in /public or a CDN URL.
+// RULE: never commit large video files to the repo — host them and embed.
+const { youtube, vimeo, src, title = 'Video', poster } = Astro.props;
+let embedSrc = null;
+if (youtube) embedSrc = `https://www.youtube-nocookie.com/embed/${youtube}`;
+else if (vimeo) embedSrc = `https://player.vimeo.com/video/${vimeo}`;
+---
+<figure class="media-video">
+  {embedSrc ? (
+    <div class="video-frame">
+      <iframe
+        src={embedSrc}
+        title={title}
+        loading="lazy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  ) : src ? (
+    <video controls preload="none" poster={poster} src={src} style="width:100%;border-radius:10px;"></video>
+  ) : (
+    <p><em>Video: provide a `youtube`, `vimeo`, or `src` prop.</em></p>
+  )}
+</figure>

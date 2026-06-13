@@ -1,0 +1,11 @@
+---
+// Figure.astro — an image with an optional caption.
+// Works with /public paths, external URLs, or CDN (Cloudinary/Bunny) URLs.
+// For build-time OPTIMIZED local images, import them and use astro:assets <Image>
+// directly in an .mdx post instead (see media-showcase.mdx).
+const { src, alt = '', caption, width, height } = Astro.props;
+---
+<figure class="media-figure">
+  <img src={src} alt={alt} loading="lazy" decoding="async" width={width} height={height} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
